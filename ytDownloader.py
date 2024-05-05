@@ -8,11 +8,18 @@ window.title('YouTube Downloader')
 def on_progress(steam, chunk, byte_remaining):
     total_size = steam.filesize
     byte_downloaded = total_size - byte_remaining
-    percen_dl = byte_downloaded * total_size / 100
+    percen_dl = byte_downloaded / total_size * 100
+    per = int(percen_dl)
+    print(per/100)
+    dl_progress.set(per)
+    percen_label.configure(text=str(per) +" %")
+    percen_label.update()
 def clicker():
     link = url_entry.get()
     yt = YouTube(link, on_progress_callback=on_progress)
-    steam = yt.streams.get_by_resolution(reso_box.get())
+    steam = yt.streams.filter(res=reso_box, progressive=True).first()
+    #steam = yt.streams.order_by().desc().first()
+    #steam = yt.streams.get_by_resolution(reso_box.get())
     steam.download(output_path='/Users/hara/Desktop/DL')
     info_label.configure(text=yt.title)
     views_label.configure(text=yt.views)
@@ -22,7 +29,7 @@ url_label = ctk.CTkLabel(window, text='Enter URL')
 url_entry = ctk.CTkEntry(window, width=300)
 
 #select_resolution
-option = ['360p','480p','720p','1080p']
+option = ['360p','480p','720p']
 reso_box = ctk.CTkOptionMenu(window, values=option)
 
 #Progress Bar
