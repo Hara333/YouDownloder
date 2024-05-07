@@ -14,6 +14,7 @@ def on_progress(steam, chunk, byte_remaining):
     dl_progress.set(per)
     percen_label.configure(text=str(per) +" %")
     percen_label.update()
+
 def clicker():
     link = url_entry.get()
     yt = YouTube(link, on_progress_callback=on_progress)
@@ -23,6 +24,7 @@ def clicker():
     steam.download(output_path='/Users/hara/Desktop/DL')
     info_label.configure(text=yt.title)
     views_label.configure(text=yt.views)
+    print(yt.)
 
 #widget
 url_label = ctk.CTkLabel(window, text='Enter URL')
